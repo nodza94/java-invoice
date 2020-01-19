@@ -15,7 +15,7 @@ public abstract class Product {
 		this.price = price;
 		this.taxPercent = tax;
 		
-		if (name == null) {
+		if (name == null || name == "" || name == " ") {
 			throw new IllegalArgumentException("Product name can't be blank");
 		}
 		
