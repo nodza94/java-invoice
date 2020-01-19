@@ -9,10 +9,16 @@ public abstract class Product {
 
 	private final BigDecimal taxPercent;
 
-	protected Product(String name, BigDecimal price, BigDecimal tax) {
+	protected Product(String name, BigDecimal price, BigDecimal tax) throws IllegalArgumentException {
+		
 		this.name = name;
 		this.price = price;
 		this.taxPercent = tax;
+		
+		if (name == null) {
+			throw new IllegalArgumentException("Product name can't be blank");
+		}
+		
 	}
 
 	public String getName() {
