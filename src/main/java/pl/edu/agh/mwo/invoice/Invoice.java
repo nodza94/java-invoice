@@ -39,23 +39,16 @@ public class Invoice {
 	}
 
 	public BigDecimal getTax() {
-		BigDecimal sumTax = BigDecimal.ZERO;
-
-		if (products != null && products.size() > 0) {
-			for (Product product : products.keySet()) {
-
-				sumTax.add(product.getPrice().multiply(product.getTaxPercent()));
-			}
-		}
-		return sumTax;
+		
+		return this.getTotal().subtract(this.getSubtotal());
 	}
 
 	public BigDecimal getTotal() {
 		BigDecimal sumTotal = BigDecimal.ZERO;
 		if (products != null && products.size() > 0) {
 			for (Product product : products.keySet()) {
-
-				sumTotal.add(product.getPriceWithTax());
+				Integer quantity = this.products.get(product);
+				sumTotal = sumTotal.add(product.getPriceWithTax().multiply(new BigDecimal(quantity)));
 			}
 		}
 		return sumTotal;
