@@ -18,6 +18,9 @@ public abstract class Product {
 		if (name == null || name == "" || name == " ") {
 			throw new IllegalArgumentException("Product name can't be blank");
 		}
+		if (price == null || price.compareTo(price.ZERO) < 0) {
+			throw new IllegalArgumentException("Product name can't be blank");
+		}
 		
 	}
 
