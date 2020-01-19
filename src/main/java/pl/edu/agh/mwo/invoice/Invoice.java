@@ -33,10 +33,17 @@ public class Invoice {
 	}
 
 	public BigDecimal getTax() {
-		return null;
+		BigDecimal sumTax = BigDecimal.ZERO;
+		
+		if (products != null && products.size() > 0) {
+			
+		}
+		return sumTax;
 	}
 
 	public BigDecimal getTotal() {
-		return null;
+		BigDecimal sumTotal = BigDecimal.ZERO;
+		
+		return sumTotal;
 	}
 }
