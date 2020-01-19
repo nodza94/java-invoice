@@ -15,10 +15,10 @@ public abstract class Product {
 		this.price = price;
 		this.taxPercent = tax;
 		
-		if (name == null || name == "" || name == " ") {
+		if (name == null || name.isEmpty()) {
 			throw new IllegalArgumentException("Product name can't be blank");
 		}
-		if (price == null || price.compareTo(price.ZERO) < 0) {
+		if (price == null || price.compareTo(BigDecimal.ZERO) < 0) {
 			throw new IllegalArgumentException("Product price can't be blank or negative");
 		}
 		
