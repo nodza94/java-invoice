@@ -3,9 +3,9 @@ package pl.edu.agh.mwo.invoice;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
+import pl.edu.agh.mwo.invoice.product.Product;
 //import java.util.Random;
 
-import pl.edu.agh.mwo.invoice.product.Product;
 
 public class Invoice {
     private Map<Product, Integer> products = new HashMap<Product, Integer>();
@@ -45,8 +45,7 @@ public class Invoice {
         return totalGross;
     }
 
-	public int getNumber() {
-		
-		return number;
-	}
+    public int getNumber() {
+        return number;
+    }
 }
