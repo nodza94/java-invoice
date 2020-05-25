@@ -193,6 +193,94 @@ public class InvoiceTest {
     }
     
     //Invoice duplicate products
+    @Test
+    public void testInvoiceProductsCountAfterAddingDuplicate() {
+    	invoice.addProduct(new TaxFreeProduct("Chleb", new BigDecimal("5")), 2);
+    	invoice.addProduct(new DairyProduct("Chedar", new BigDecimal("10")));
+    	int pinezkaVal1 = 30;
+    	invoice.addProduct(new OtherProduct("Pinezka", new BigDecimal("0.01")), pinezkaVal1);
+    	int pinezkaVal2 = 20;
+    	invoice.addProduct(new OtherProduct("Pinezka", new BigDecimal("0.01")), pinezkaVal2);
+    	
+    	Assert.assertEquals(3, invoice.getProducts().size());
+    }
+    @Test
+    public void testInvoiceProductCountIncreasesAfterAddingDuplicate() {
+    	int pinezkaVal1 = 30;
+    	int pinezkaVal2 = 20;
+    	Integer amount = pinezkaVal1 + pinezkaVal2;
+    	Product productTest = new OtherProduct("Pinezka", new BigDecimal("0.01"));
+    	
+    	invoice.addProduct(productTest, pinezkaVal1);
+    	invoice.addProduct(productTest, pinezkaVal2);
+    	
+    	Assert.assertEquals(amount, invoice.getProducts().get(productTest));
+    }
     
+    @Test
+    public void testInvoiceAddProductCountChanges() {
+    	Product productTest = new DairyProduct("Chedar", new BigDecimal("10"));
+    	Integer amount = 10;
+    	for (int i = 0; i < amount; i++) {
+    		invoice.addProduct(productTest);
+    	}
+    	Assert.assertEquals(amount, invoice.getProducts().get(productTest));
+    }
+    
+    @Test
+    public void testInvoiceAddProductTwiceWithDifferentPrice() {
+        Product productTest1 =   new DairyProduct("Mleko", new BigDecimal("4"));
+        Product productTest2 =   new DairyProduct("Mleko", new BigDecimal("5"));
+        
+        invoice.addProduct(productTest1);
+        invoice.addProduct(productTest2);
+     
+        Assert.assertEquals(Integer.valueOf(1), invoice.getProducts().get(productTest1));      
+        Assert.assertEquals(Integer.valueOf(1), invoice.getProducts().get(productTest2)); 
+        
+    }
+    
+    @Test
+    public void testInvoiceAddDuplicatedProductTwiceWithDifferentPrice() {
+        Product productTest1 =   new DairyProduct("Mleko", new BigDecimal("4"));
+        Product productTest2 =   new DairyProduct("Mleko", new BigDecimal("5"));
+        Integer val1 = 30;
+        Integer val2 = 20;
+        
+        invoice.addProduct(productTest1, val1);
+        invoice.addProduct(productTest2, val2);
+     
+        Assert.assertEquals(val1, invoice.getProducts().get(productTest1));      
+        Assert.assertEquals(val2, invoice.getProducts().get(productTest2)); 
+        
+    }
+    
+    @Test
+    public void testInvoiceAddProductTwiceWithDifferentTax() {
+        Product productTest1 =   new OtherProduct("Mleko", new BigDecimal("4"));
+        Product productTest2 =   new DairyProduct("Mleko", new BigDecimal("5"));
+        
+        invoice.addProduct(productTest1);
+        invoice.addProduct(productTest2);
+     
+        Assert.assertEquals(Integer.valueOf(1), invoice.getProducts().get(productTest1));      
+        Assert.assertEquals(Integer.valueOf(1), invoice.getProducts().get(productTest2)); 
+        
+    }
+    
+    @Test
+    public void testInvoiceAddDuplicatedProductTwiceWithDifferentTax() {
+        Product productTest1 =   new OtherProduct("Mleko", new BigDecimal("4"));
+        Product productTest2 =   new DairyProduct("Mleko", new BigDecimal("5"));
+        Integer val1 = 30;
+        Integer val2 = 20;
+        
+        invoice.addProduct(productTest1, val1);
+        invoice.addProduct(productTest2, val2);
+     
+        Assert.assertEquals(val1, invoice.getProducts().get(productTest1));      
+        Assert.assertEquals(val2, invoice.getProducts().get(productTest2)); 
+        
+    }
     //Invoice test alcohol
 }
