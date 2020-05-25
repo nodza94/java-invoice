@@ -1,6 +1,8 @@
 package pl.edu.agh.mwo.invoice;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.hamcrest.Matchers;
 import org.junit.Assert;
@@ -105,6 +107,7 @@ public class InvoiceTest {
         invoice.addProduct(new DairyProduct("Zsiadle mleko", new BigDecimal("5.55")), -1);
     }
     
+    //Invoice Number tests
     @Test
     public void testInvoiceHasNumber() {
 		int number = invoice.getNumber();
@@ -126,4 +129,70 @@ public class InvoiceTest {
     public void testInvoiceNumberIsNotChanging() {
     	Assert.assertEquals(invoice.getNumber(), invoice.getNumber());
     }
+    
+    //Invoice print tests
+    @Test
+    public void testInvoiceIsString() {
+    	String testInvoice = invoice.toString();
+    	Assert.assertTrue(!testInvoice.isEmpty() || testInvoice != null);
+    }
+    
+    @Test
+    public void testInvoiceStartsWithNumber() {
+    	String testInvoice = invoice.toString();
+    	Assert.assertTrue(testInvoice.startsWith("INVOICE No. " + Integer.toString(invoice.getNumber())));
+    }
+    
+
+    @Test
+    public void testInvoiceEndsWithSum() {
+    	invoice.addProduct(new TaxFreeProduct("Chleb", new BigDecimal("5")), 2);
+        invoice.addProduct(new DairyProduct("Chedar", new BigDecimal("10")));
+        invoice.addProduct(new OtherProduct("Pinezka", new BigDecimal("0.01")), 3);
+        
+    	String testInvoice = invoice.toString();
+ 
+    	Assert.assertEquals(("LICZBA POZYCJI: " + invoice.getProducts().size()), 
+    			testInvoice.substring(testInvoice.lastIndexOf("\n") + 1));
+    	}
+    
+
+    @Test
+    public void testInvoiceEveryProductListed() {
+    	invoice.addProduct(new TaxFreeProduct("Chleb", new BigDecimal("5")), 2);
+        invoice.addProduct(new DairyProduct("Chedar", new BigDecimal("10")));
+        invoice.addProduct(new OtherProduct("Pinezka", new BigDecimal("0.01")), 3);
+    	
+    	String testInvoice = invoice.toString();
+    	
+    	String productList = testInvoice.substring(testInvoice.indexOf("\n") + 1, testInvoice.lastIndexOf("\n") + 1);
+    	
+    	Assert.assertEquals(productList.split("\r\n|\r|\n").length, invoice.getProducts().size());
+    }
+    
+    @Test
+    public void testInvoiceShowCorrectData() {
+    	invoice.addProduct(new TaxFreeProduct("Chleb", new BigDecimal("5")), 2);
+    	invoice.addProduct(new DairyProduct("Chedar", new BigDecimal("10")));
+    	invoice.addProduct(new OtherProduct("Pinezka", new BigDecimal("0.01")), 3);
+    	
+    	String testInvoice = invoice.toString();
+    	int i = 1;
+    	String productList = testInvoice.substring(testInvoice.indexOf("\n") + 1, testInvoice.lastIndexOf("\n") + 1);
+    	
+    	Map<Product, Integer> products = invoice.getProducts();
+    	String createdProductList = "";
+    	
+    	for (Product product : products.keySet()) {
+			BigDecimal quantity = new BigDecimal(products.get(product));
+			createdProductList += i + "  " + product.getName() + " \t " + quantity + " x  " + product.getPriceWithTax() + "\n";
+			i++;
+		}
+    	
+    	Assert.assertEquals(createdProductList, productList);
+    }
+    
+    //Invoice duplicate products
+    
+    //Invoice test alcohol
 }

@@ -48,4 +48,32 @@ public class Invoice {
     public int getNumber() {
         return number;
     }
+    
+    public String toString() {
+        String invoicePrint = "INVOICE No. " + number + "\n";
+        int i = 1;
+
+        for (Product product : products.keySet()) {
+            BigDecimal quantity = new BigDecimal(products.get(product));
+            invoicePrint +=  + i + "  " + product.getName() + " \t " + quantity + " x  " + product.getPriceWithTax() + "\n";
+            i++;
+        }
+        invoicePrint = invoicePrint + "LICZBA POZYCJI: " + products.size();
+        return invoicePrint;
+    }
+
+    public Map<Product, Integer> getProducts() {
+        return products;
+    }
 }
+
+/*
+INVOICE No. [XXXX]
+1 Product Name  [quantity] x price
+2 Product Name  [quantity] x price
+.
+.
+.
+N Product Name  X - price
+LICZBA POZYCJI: X
+*/
