@@ -10,7 +10,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import pl.edu.agh.mwo.invoice.Invoice;
+import pl.edu.agh.mwo.invoice.product.AlcoholProduct;
 import pl.edu.agh.mwo.invoice.product.DairyProduct;
+import pl.edu.agh.mwo.invoice.product.FuelProduct;
 import pl.edu.agh.mwo.invoice.product.OtherProduct;
 import pl.edu.agh.mwo.invoice.product.Product;
 import pl.edu.agh.mwo.invoice.product.TaxFreeProduct;
@@ -283,4 +285,56 @@ public class InvoiceTest {
         
     }
     //Invoice test alcohol
+    @Test
+    public void testInvoiceAddProductWithSameNameWithExcise() {
+        Product productTest1 =   new AlcoholProduct("Krupnik", new BigDecimal("25"));
+        Product productTest2 =   new FuelProduct("Krupnik", new BigDecimal("100"));
+        
+        invoice.addProduct(productTest1);
+        invoice.addProduct(productTest2);
+     
+        Assert.assertEquals(Integer.valueOf(1), invoice.getProducts().get(productTest1));      
+        Assert.assertEquals(Integer.valueOf(1), invoice.getProducts().get(productTest2)); 
+        
+    }
+    
+    @Test
+    public void testInvoiceAddDuplicatedProductWithSameNameWithExcise() {
+    	Product productTest1 =   new AlcoholProduct("Krupnik", new BigDecimal("25"));
+        Product productTest2 =   new FuelProduct("Krupnik", new BigDecimal("100"));
+        Integer val1 = 3;
+        Integer val2 = 2;
+        
+        invoice.addProduct(productTest1, val1);
+        invoice.addProduct(productTest2, val2);
+     
+        Assert.assertEquals(val1, invoice.getProducts().get(productTest1));      
+        Assert.assertEquals(val2, invoice.getProducts().get(productTest2));        
+    }
+    @Test
+    public void testInvoiceAddProductWithandWithoutExcise() {
+        Product productTest1 =   new AlcoholProduct("Chardonnay", new BigDecimal("25"));
+        Product productTest2 =   new OtherProduct("Chardonnay", new BigDecimal("25"));
+        
+        invoice.addProduct(productTest1);
+        invoice.addProduct(productTest2);
+     
+        Assert.assertEquals(Integer.valueOf(1), invoice.getProducts().get(productTest1));      
+        Assert.assertEquals(Integer.valueOf(1), invoice.getProducts().get(productTest2)); 
+        
+    }
+    
+    @Test
+    public void testInvoiceAddDuplicatedProductWithandWithoutExcise() {
+    	Product productTest1 =   new AlcoholProduct("Grzaniec Galicyjski", new BigDecimal("20"));
+        Product productTest2 =   new OtherProduct("Grzaniec Galicyjski", new BigDecimal("20"));
+        Integer val1 = 3;
+        Integer val2 = 2;
+        
+        invoice.addProduct(productTest1, val1);
+        invoice.addProduct(productTest2, val2);
+     
+        Assert.assertEquals(val1, invoice.getProducts().get(productTest1));      
+        Assert.assertEquals(val2, invoice.getProducts().get(productTest2));        
+    }
 }
