@@ -64,7 +64,7 @@
 				<configuration>
 					<forkCount>3</forkCount>
 					<reuseForks>true</reuseForks>
-					<argLine>-Xmx1024m -XX:MaxPermSize=256m</argLine>
+					<argLine>-Xmx2048m</argLine>
 				</configuration>
 			</plugin>
 			  <!-- JaCoCo configuration - provides test coverage reports -->
@@ -74,6 +74,7 @@
                 <version>0.8.2</version>
                 <executions>
                     <execution>
+                     <id>default-prepare-agent</id>
                         <goals>
                             <goal>prepare-agent</goal>
                         </goals>
